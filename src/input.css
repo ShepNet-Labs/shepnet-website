@@ -1,0 +1,84 @@
+/* ShepNet Security - Tailwind input. Built to ./css/styles.css (minified, self-hosted). */
+
+/* Self-hosted Figtree. No font CDN, no third-party network calls. */
+@font-face {
+  font-family: 'Figtree';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/figtree-regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Figtree';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/figtree-italic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Figtree';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/figtree-bold.ttf') format('truetype');
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  body {
+    @apply bg-ice text-charcoal font-sans antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-bold text-ebony tracking-tight;
+  }
+  /* Visible keyboard focus for all interactive elements. */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 3px solid theme('colors.sable');
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* Primary gold CTA. Gold is reserved for UI / large elements only. */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-tan px-7 py-4
+           text-base font-bold text-ebony shadow-sm transition
+           hover:bg-sable hover:text-ivory focus-visible:bg-sable focus-visible:text-ivory;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-stone/40
+           bg-transparent px-7 py-4 text-base font-bold text-ebony transition
+           hover:border-ebony hover:bg-ebony hover:text-ivory;
+  }
+  /* The single signature accent rule. */
+  .brand-rule {
+    @apply h-1 w-full bg-brand-rule;
+  }
+  .link-accent {
+    @apply font-bold text-sable underline decoration-tan/60 underline-offset-4
+           transition hover:text-ebony hover:decoration-tan;
+  }
+  .container-page {
+    @apply mx-auto w-full max-w-5xl px-6;
+  }
+}

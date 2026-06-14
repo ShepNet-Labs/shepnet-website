@@ -1,0 +1,10 @@
+node_modules/
+npm-debug.log*
+.DS_Store
+Thumbs.db
+*.local
+
+# Internal business data must NEVER be committed (pricing, labor, financials).
+/internal/
+*.pricing.*
+*-internal.*
