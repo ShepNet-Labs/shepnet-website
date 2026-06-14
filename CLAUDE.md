@@ -110,8 +110,49 @@ Usage map:
   displayed 404-946-3659) and click to email. The email is lightly obfuscated:
   it is assembled at runtime by a small inline script and never appears as a
   plain string in the markup. That script is not a tracker.
-- `privacy.html` and `terms.html`  Legal placeholders with a marked block where
-  the owner pastes final content. Linked from the footer.
+- `privacy.html` and `terms.html`  Legal pages with finalized content. Linked
+  from the footer.
+- `security.html`  Responsible Disclosure policy. Linked from the footer. See the
+  Disclosure section below.
+
+## SEO
+
+- Every page has a UNIQUE `<title>` and `<meta name="description">` (about 150 to
+  160 characters). Keep them distinct; do not reuse copy across pages.
+- Every page has exactly ONE `<h1>`. Do not add a second h1; use h2 for sections.
+- Every page has a `<link rel="canonical">` pointing to its own apex https URL.
+  The home page canonical is `https://shepnetsecurity.com/` with no trailing
+  `index.html`. The disclosure page canonical is `https://shepnetsecurity.com/security`.
+- Every page has Open Graph and Twitter Card tags (og:type, og:site_name,
+  og:title, og:description, og:url, og:image, twitter:card=summary,
+  twitter:title, twitter:description, twitter:image). Titles and descriptions in
+  those tags mirror the page's own `<title>` and meta description. The shared
+  share image is `https://shepnetsecurity.com/assets/og-image.png` (1200x630,
+  brand logo on an Ice background, regenerate with the same on-brand approach if
+  the logo changes; no marketing claims in the image).
+- `index.html` only carries a JSON-LD `ProfessionalService` block. The address is
+  city only (addressLocality Atlanta, addressRegion GA, addressCountry US) with
+  NO street address. `areaServed` combines the United States (schema.org Country)
+  with the Greater Atlanta metropolitan area and named metro cities. Do not add
+  ratings, review counts, founding dates, or price to the JSON-LD.
+- `sitemap.xml` lists every canonical URL. UPDATE it (and `robots.txt` if needed)
+  whenever a page is added, removed, or its canonical URL changes.
+- Service-area framing: Atlanta based, serving the metro area and remotely
+  nationwide. Never imply a physical office in any city other than Atlanta, and
+  never list a street address anywhere (pages, JSON-LD, or share image).
+
+## Disclosure (responsible disclosure)
+
+- `security.html` (Responsible Disclosure) and `/.well-known/security.txt`
+  (RFC 9116) both exist and must stay consistent with each other.
+- Keep commitments MODEST for a solo operator: acknowledge reports as soon as
+  reasonably possible. Do NOT promise a specific response time. Do NOT offer any
+  monetary reward or bug bounty. Scope is strictly the shepnetsecurity.com
+  website and its public pages; client systems and third-party services are out
+  of scope.
+- The `security.txt` `Expires` field is a hard date and must be refreshed about
+  annually (12 months out, ISO 8601). When you refresh it, keep `Policy` and
+  `Canonical` pointing at the apex URLs.
 
 ## Build and deploy
 
@@ -130,9 +171,16 @@ commit the regenerated `css/styles.css`.
 
 Deployment is automatic. On push to `main`, the GitHub Actions workflow
 (`.github/workflows/deploy.yml`) installs Node, runs the production Tailwind
-build, and publishes the repository root to GitHub Pages. The custom domain is
-configured by the `CNAME` file (`shepnetsecurity.com`); `www` redirects to the
-apex. `.nojekyll` disables Jekyll processing.
+build, and publishes the repository root to GitHub Pages. Because the whole repo
+root is published, static files at their repo paths are served as is at the
+domain root: `robots.txt`, `sitemap.xml`, `assets/og-image.png`, and
+`.well-known/security.txt`. `.nojekyll` disables Jekyll processing, which is what
+allows the `.well-known` folder to be served.
+
+The custom domain (`shepnetsecurity.com`, with `www` redirecting to the apex) is
+LIVE and is held by the `CNAME` file. Keep `CNAME` in the repo: an Actions Pages
+deploy whose artifact lacks a `CNAME` file can unset the custom domain and break
+the live site.
 
 DNS is hosted on Microsoft (Azure DNS) and is changed manually by the owner. Do
 not automate DNS changes. Existing Microsoft 365 mail records must not be touched.
