@@ -8,3 +8,7 @@ Thumbs.db
 /internal/
 *.pricing.*
 *-internal.*
+
+# Local Claude Code config (never commit; exposes local paths)
+.claude/
+.claude/settings.local.json
